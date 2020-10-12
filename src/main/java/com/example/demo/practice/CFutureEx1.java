@@ -60,7 +60,6 @@ public class CFutureEx1 {
 
         CompletableFuture cf1 = CompletableFuture.supplyAsync(() -> "hello");
         CompletableFuture cf2 = CompletableFuture.supplyAsync(() -> "world");
-        CompletableFuture cf3 = CompletableFuture.supplyAsync(() -> "YAYA");
 
         CompletableFuture completableFuture = cf1.thenCombine(cf2, (s1, s2) -> s1.toString().toUpperCase() + s2.toString().toUpperCase());
         System.out.println(completableFuture.get());
