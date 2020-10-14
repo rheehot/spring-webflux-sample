@@ -63,7 +63,14 @@ public class CFutureEx1 {
         CompletableFuture cf3 = CompletableFuture.supplyAsync(() -> "YAYA");
 
         CompletableFuture completableFuture = cf1.thenCombine(cf2, (s1, s2) -> s1.toString().toUpperCase() + s2.toString().toUpperCase());
-        System.out.println(completableFuture.get());
+
+        CompletableFuture<Integer> cf4 = CompletableFuture.supplyAsync(() -> 6);
+        CompletableFuture<Integer> cf5 = CompletableFuture.supplyAsync(() -> 4);
+        CompletableFuture<Integer> integerCf = cf4.thenCombine(cf5, Integer::sum);
+        System.out.println(integerCf.get());
+
+
+        // todo: all of
 
     }
 }
