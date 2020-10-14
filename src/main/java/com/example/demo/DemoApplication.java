@@ -8,6 +8,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 @SpringBootApplication
@@ -30,11 +31,26 @@ public class DemoApplication {
         return m; // subscribe 1번더 호출 by 스프링
     }
 
+    /**
+     * Mono.just(List)와 같은 객체를 넘겨도 아래의 Flux 와 동일하다.
+     *
+     * @param id
+     * @return
+     */
     @GetMapping("/event/{id}")
     public Mono<Event> eventMono(@PathVariable long id) {
         return Mono.just(new Event(id, "event " + id));
-
+//        List<Event> list = Arrays.asList(new Event(1L, "event1"), new Event(2L, "event2"));
+//        return Mono.just(list);
     }
+
+    @GetMapping("/events")
+    public Flux<Event> eventFlux() {
+        return Flux.just(new Event(1L, "event1"), new Event(2L, "event2"));
+//        List<Event> list = Arrays.asList(new Event(1L, "event1"), new Event(2L, "event2"));
+//        return Flux.fromIterable(list);
+    }
+
 
     public String generateHello() {
         log.info("generate hello method");
