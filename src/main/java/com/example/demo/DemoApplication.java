@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
@@ -44,11 +45,12 @@ public class DemoApplication {
 //        return Mono.just(list);
     }
 
-    @GetMapping("/events")
+    @GetMapping(value = "/events", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
     public Flux<Event> eventFlux() {
-        return Flux.just(new Event(1L, "event1"), new Event(2L, "event2"));
-//        List<Event> list = Arrays.asList(new Event(1L, "event1"), new Event(2L, "event2"));
-//        return Flux.fromIterable(list);
+//        return Flux.fromStream(Stream.generate(() -> new Event(System.currentTimeMillis(), "value"))).take(10);
+        return Flux.
+                <Event>generate(sink -> sink.next(new Event(System.currentTimeMillis(), "value")))
+                .take(10);
     }
 
 
